@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.topnav {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow-x: auto;
+  background: rgb(147, 140, 149);
+  white-space: nowrap;
+  border-radius: 0px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.topnav a {
+  display: inline-block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 20px;
+  text-decoration: none;
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.topnav a:hover {
+  background-color: #87c245;
+  color: white;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  border-radius: 5px;
+
+}
+.topnav a:not(:first-child) {
+  margin-right: 10px;
+}
+
+
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 5px;
+  margin: 0 10px 10px 4px; /* Adjust margin for spacing between buttons */
+  background-color: #cfd9dc;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  text-decoration: none;
+  font-size: 10px;
+  
+  border-radius: 5px;
+  min-width: 90px;
+}
+
+
+.button img {
+  padding-right: 10px;
+  height: 20px;
+  width: 20px;
+}
+
+.button:hover {
+  background-color: #04AA6D;
+}
+
+.name1 {
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.buttonbox{
+    overflow: auto;
+}
+.buttonbox1{
+  overflow: auto;}
+
+  .buttonbox2{
+    overflow: auto;
+}
+.buttonbox3{
+  overflow: auto;}
+
+  .category-buttons-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px;
+    background: #ffffff;
+  }
+
+  .category-buttons-container button {
+    padding: 10px 20px;
+    margin-right: 10px; /* Add some space between buttons */
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    white-space: nowrap; /* Prevent line breaks */
+  }
+  .category-buttons-container button:hover {
+  background-color: #f0f0f0;
+}
+  .category-buttons-container button.active {
+    background-color: #b94ece;
+    color: #ffffff;
+    border: 2px solid #5b2ac5;
+    /* transition: border 0.1s ease-in-out; */
+
+
+  }
+
+  .category-buttons-container button {
+  margin-right: 15px;
+  /* transition: background-color 0.9s ease-in-out, color 0.9s ease-in-out; */
+
+}
+.container {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+#no-results-message {
+  text-align: center;
+  font-size: 18px;
+}
+#offline-message {
+      display: none;
+      text-align: center;
+      font-size: 20px;
+      padding: 20px;
+      background-color: #ff5555;
+      color: white;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 9999;
+      transition: background-color 0.5s ease-in-out;
+    }
+     /* Add a green background when online */
+     #offline-message.online {
+      background-color: #04AA6D;
+    }
+
+    .shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-300%);
+  }
+  100% {
+    transform: translateX(500%);
+  }
+}
+  
+</style>
+</head>
+
+<!-- 
+<div class="topnav" id="myTopnav">
+  <a href="#" onclick="showAll()">Show All</a>
+
+    <a href="#" onclick="showContainer('container')">Search Engines</a>
+  <a href="#" onclick="showContainer('container1')">Reels</a>
+  <a href="#" onclick="showContainer('container3')">About</a> 
+  <a href="#class1">search engine</a>
+  <a href="#contact">Reels</a>
+  <a href="#about">About</a>
+  <a href="#text1">Text 1</a>
+  <a href="#text2">Text 2</a>
+  <a href="#text3">Text 3</a>
+  <a href="#text4">Text 4</a>
+  <a href="#text5">Text 5</a>
+  <a href="https://www.google.com">Google</a>
+  <a href="https://www.facebook.com">Facebook</a>
+  <a href="https://www.instagram.com">Instagram</a>
+</div> -->
+
+
+
+<div class="category-buttons-container">
+  <button class="filter-button active" onclick="filterVideos('all')" data-category="all">Show All</button>
+  <button class="filter-button" onclick="filterVideos('Allinone')" data-category="Allinone">All in 1</button>
+
+  <button class="filter-button" onclick="filterVideos('English')" data-category="English">English</button>
+  <button class="filter-button" onclick="filterVideos('Hindi')" data-category="Hindi">Hindi</button>
+  <button class="filter-button" onclick="filterVideos('Telugu')" data-category="Telugu">Telugu</button>
+  <button class="filter-button" onclick="filterVideos('Kannada')" data-category="Kannada">Kannada</button>
+  <button class="filter-button" onclick="filterVideos('Tamil')" data-category="Tamil">Tamil</button>
+
+
+</div>
+<!-- 
+
+<div id="offline-message">
+  You are currently offline. Please check your internet connection.
+</div>
+
+<div id="no-results-message" style="display: none; padding: 10px; background-color: #ff0000; color: white; border-radius: 10px; font-size: 18px; text-align: center; margin-top: 20px;">
+  No results found. You can see the latest videos <a href="#">here</a>.
+</div> -->
+
+
+<div class="container" data-category="Allinone">
+
+  <div class="name1">
+<p>All Tech Channels</p></div>
+<div class="buttonbox1">
+  
+  <div class="button-container">
+    <a href="https://www.youtube.com/@techinkannada360">
+    <div class="button shimmer">
+      <img src="techinkanada.jpg" alt="Image 1" height="30" width="30"> Tech in kannada
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@Techforgenius">
+    <div class="button shimmer">
+      <img src="techforgenius.jpg" alt="Image 1" height="30" width="30"> Tech for genius
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@TechGuruKannada">
+    <div class="button shimmer">
+      <img src="techgure.jpg" alt="Image 1" height="30" width="30"> Tech guru kannada
+    </div>
+  </a>
+ 
+    <a href="https://www.youtube.com/@electricalgeleya5721">
+    <div class="button shimmer">
+      <img src="elecricalgelaya.jpg" alt="Image 1" height="30" width="30"> Elecrical gelaya
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@TECHNICALJAGATTU">
+    <div class="button shimmer">
+      <img src="technicaljagathu.jpg" alt="Image 1" height="30" width="30"> Technical jagathu
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@NeedsOfPublic">
+    <div class="button shimmer">
+      <img src="needs.jpg" alt="Image 1" height="30" width="30"> Needs Of Public
+    </div>
+  </a>
+ 
+ 
+   
+  <a href="https://www.youtube.com/@Prasadtechintelugu">
+    <div class="button shimmer">
+      <img src="prasadtechtelugu.jpg" alt="Image 1" height="30" width="30"> Prasad techin telugu
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@TechSiva">
+    <div class="button shimmer">
+      <img src="techshiva.jpg" alt="Image 1" height="30" width="30"> Tech siva
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@TechFactsRafee">
+    <div class="button shimmer">
+      <img src="tech facts.jpg" alt="Image 1" height="30" width="30"> Tech facts in Telugu
+    </div>
+  </a>
+ 
+    <a href="https://www.youtube.com/@SaiKrishnaTechy">
+    <div class="button shimmer">
+      <img src="sai.jpg" alt="Image 1" height="30" width="30"> Sai Krishna 
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@TeluguTechwithSrinivas">
+    <div class="button shimmer">
+      <img src="telugutechwith.jpg" alt="Image 1" height="30" width="30"> Telugu Tech with Srinivas
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@SaiNithinTech">
+    <div class="button shimmer">
+      <img src="sainitin.jpg" alt="Image 1" height="30" width="30"> Sai Nithin Tech
+    </div>
+  </a>
+
+ 
+
+  <a href="https://www.youtube.com/@VaasuTechVlogs">
+    <div class="button shimmer">
+      <img src="vaasutech.jpg" alt="Image 1" height="30" width="30"> Vaasu Tech Vlogs
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@Telugutechworld">
+    <div class="button shimmer">
+      <img src="telugutechworld.jpg" alt="Image 1" height="30" width="30"> Telugu Tech World
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@telugutechhafiz">
+    <div class="button shimmer">
+      <img src="telugutechtut.jpg" alt="Image 1" height="30" width="30"> Telugu Tech Tuts
+    </div>
+  </a>
+
+  
+
+  <a href="https://www.youtube.com/@AdarshTechLover">
+    <div class="button shimmer">
+      <img src="telugulover.jpg" alt="Image 1" height="30" width="30"> Telugu Tech Lover
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@TechShanTamil">
+    <div class="button shimmer">
+      <img src="techshan.jpg"Image 1" height="30" width="30"> Tech Shan Tamil
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@Boo_tech">
+    <div class="button shimmer">
+      <img src="boo.jpg" alt="Image 1" height="30" width="30"> Boo Tech
+    </div>
+  </a>
+
+  <a href="https://www.youtube.com/@A2DChannel">
+    <div class="button shimmer">
+      <img src="a2d.jpg" alt="Image 1" height="30" width="30"> A2D Channel
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@TechBuddiesIndia">
+    <div class="button shimmer">
+      <img src="techbuddies.jpg" alt="Image 1" height="30" width="30"> Tech Buddies India
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@TechSatire">
+    <div class="button shimmer">
+      <img src="techsathire.jpg" alt="Image 1" height="30" width="30"> Tech Satire
+    </div>
+  </a>
+
+  <a href="https://www.youtube.com/@C4ETechTamil">
+    <div class="button shimmer">
+      <img src="c4e.jpg" alt="Image 1" height="30" width="30"> C4ETech Tamil
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@LoudOliTech">
+    <div class="button shimmer">
+      <img src="loud.jpg" alt="Image 1" height="30" width="30"> Louud Oli Tech
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@TechBossIndia">
+    <div class="button shimmer">
+      <img src="techboss.jpg" alt="Image 1" height="30" width="30"> Tech Boss India
+    </div>
+  </a>
+
+  <a href="https://www.youtube.com/@TamilTechOfficial">
+    <div class="button shimmer">
+      <img src="tamilmrtt.jpg" alt="Image 1" height="30" width="30"> Tamil tech-MRTT
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@cybertamizha">
+    <div class="button shimmer">
+      <img src="cyber.jpg" alt="Image 1" height="30" width="30"> Cyber Tamizha
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@mkbhd">
+    <div class="button shimmer">
+      <img src="bhk.jpg" alt="Image 1" height="30" width="30"> Marques Brownlee
+    </div>
+  </a>
+
+  <a href="https://www.youtube.com/@unboxtherapy">
+    <div class="button shimmer">
+      <img src="unbox.jpg" alt="Image 1" height="30" width="30"> Unbox Therapy
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@TrakinTechEnglish">
+    <div class="button shimmer">
+      <img src="techengish.jpg" alt="Image 1" height="30" width="30"> Trakin tech English
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@GuidingTechEnglish">
+    <div class="button shimmer">
+      <img src="premium.jpg" alt="Image 1" height="30" width="30"> Guiding Tech English
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@C4ETech">
+    <div class="button shimmer">
+      <img src="c4eengish.jpg" alt="Image 1" height="30" width="30">C4ETech English
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@beebomco">
+    <div class="button shimmer">
+      <img src="bb.jpg" alt="Image 1" height="30" width="30"> Beebomco
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@FutureTechOfficial">
+    <div class="button shimmer">
+      <img src="fuetur.jpg" alt="Image 1" height="30" width="30"> Future Tech Official
+    </div>
+  </a>
+
+  <a href="https://www.youtube.com/@GadgetByte">
+    <div class="button shimmer">
+      <img src="gadget.jpg" alt="Image 1" height="30" width="30"> gadget byte
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@Techshan">
+    <div class="button shimmer">
+      <img src="shan.jpg" alt="Image 1" height="30" width="30"> Techshan
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@Thetechchap">
+    <div class="button shimmer">
+      <img src="chap.jpg" alt="Image 1" height="30" width="30"> Thetechchap
+    </div>
+  </a>
+  
+ 
+    <a href="https://www.youtube.com/@LinusTechTips">
+      <div class="button shimmer">
+        <img src="tips.jpg" alt="Image 1" height="30" width="30"> linus tech tips
+      </div>
+    </a>
+    <a href="https://www.youtube.com/@tech___zone">
+      <div class="button shimmer">
+        <img src="tz.jpg" alt="Image 1" height="30" width="30"> tech___zone
+      </div>
+    </a>
+    <a href="https://www.youtube.com/@MalayalamTechOfficial">
+      <div class="button shimmer">
+        <img src="maliyalam.jpg" alt="Image 1" height="30" width="30"> Maliyalm Tech Official
+      </div>
+    </a>
+    
+   
+
+      <a href="https://www.youtube.com/@MalayalamTechFactory">
+        <div class="button shimmer">
+          <img src="mf.jpg" alt="Image 1" height="30" width="30"> Malayalam Tech Factory
+        </div>
+      </a>
+      <a href="https://www.youtube.com/@MrPerfectTechofficial">
+        <div class="button shimmer">
+          <img src="mr.jpg" alt="Image 1" height="30" width="30"> Mr Perfect Tech
+        </div>
+      </a>
+      <a href="https://www.youtube.com/@MrPerfectTechofficial">
+        <div class="button shimmer">
+          <img src="aa.jpg" alt="Image 1" height="30" width="30"> Aa Tech
+        </div>
+      </a>
+      
+     
+      </div>
+</div>
+</div>
+
+
+<div class="container" data-category="English">
+  <div class="name1">
+<p>English news channels</p></div>
+<div class="buttonbox1">
+  
+  <div class="button-container">
+    <a href="https://www.youtube.com/@mkbhd">
+    <div class="button shimmer">
+      <img src="bhk.jpg" alt="Image 1" height="30" width="30"> Marques Brownlee
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@unboxtherapy">
+    <div class="button shimmer">
+      <img src="unbox.jpg" alt="Image 1" height="30" width="30"> Unbox Therapy
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@TrakinTechEnglish">
+    <div class="button shimmer">
+      <img src="techengish.jpg" alt="Image 1" height="30" width="30"> Traking tech English
+    </div>
+  </a>
+  
+ 
+    <a href="https://www.youtube.com/@GuidingTechEnglish">
+    <div class="button shimmer">
+      <img src="premium.jpg" alt="Image 1" height="30" width="30"> Guiding Tech English
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@C4ETech">
+    <div class="button shimmer">
+      <img src="c4eengish.jpg" alt="Image 1" height="30" width="30"> C4E Tech English
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@beebomco">
+    <div class="button shimmer">
+      <img src="bb.jpg" alt="Image 1" height="30" width="30"> Beebomco
+    </div>
+  </a>
+ 
+    <a href="https://www.youtube.com/@FutureTechOfficial">
+    <div class="button shimmer">
+      <img src="fuetur.jpg" alt="Image 1" height="30" width="30"> Future Tech Official
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@GadgetByte">
+    <div class="button shimmer">
+      <img src="gadget.jpg" alt="Image 1" height="30" width="30"> GadgetByte
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@Techshan">
+    <div class="button shimmer">
+      <img src="shan.jpg" alt="Image 1" height="30" width="30">Techshan
+    </div>
+  </a>
+ 
+    <a href="https://www.youtube.com/@Thetechchap">
+    <div class="button shimmer">
+      <img src="chap.jpg" alt="Image 1" height="30" width="30">Thetechchap
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@LinusTechTips">
+    <div class="button shimmer">
+      <img src="tips.jpg" alt="Image 1" height="30" width="30"> Linus Tech Tips
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@tech___zone">
+    <div class="button shimmer">
+      <img src="tz.jpg" alt="Image 1" height="30" width="30"> Tech___zone
+    </div>
+  </a>
+ 
+  </div>
+</div>
+</div>
+
+
+
+<div class="container" data-category="Kannada">
+
+  <div class="name1">
+<p>Kannada Tech Channels</p></div>
+<div class="buttonbox1">
+  <div class="button-container">
+
+  <a href="https://www.youtube.com/@techinkannada360">
+    <div class="button shimmer">
+      <img src="techinkanada.jpg" alt="Image 1" height="30" width="30"> Tech in kannada
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@Techforgenius">
+    <div class="button shimmer">
+      <img src="techforgenius.jpg" alt="Image 1" height="30" width="30"> Tech for genius
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@TechGuruKannada">
+    <div class="button shimmer">
+      <img src="techgure.jpg" alt="Image 1" height="30" width="30"> Tech guru kannada
+    </div>
+  </a>
+
+  <a href="https://www.youtube.com/@electricalgeleya5721">
+    <div class="button shimmer">
+      <img src="elecricalgelaya.jpg" alt="Image 1" height="30" width="30"> Elecrical gelaya
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@TECHNICALJAGATTU">
+    <div class="button shimmer">
+      <img src="technicaljagathu.jpg" alt="Image 1" height="30" width="30"> technical jagathu
+    </div>
+  </a>
+ 
+  </div>
+  <div class="button-container">
+    <a href="https://www.youtube.com/@NeedsOfPublic">
+    <div class="button shimmer">
+      <img src="needs.jpg" alt="Image 1" height="30" width="30"> Needs Of Public
+    </div>
+  </a>
+ 
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="container" data-category="Telugu">
+  <div class="name1">
+<p> Telugu Tech Channels</p></div>
+<div class="buttonbox1">
+    <div class="button-container">
+
+  <a href="https://www.youtube.com/@Prasadtechintelugu">
+    <div class="button shimmer">
+      <img src="prasadtechtelugu.jpg" alt="Image 1" height="30" width="30"> Prasad techin telugu
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@TechSiva">
+    <div class="button shimmer">
+      <img src="techshiva.jpg" alt="Image 1" height="30" width="30"> Tech siva
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@TechFactsRafee">
+    <div class="button shimmer">
+      <img src="tech facts.jpg" alt="Image 1" height="30" width="30"> Tech facts in telugu
+    </div>
+  </a>
+
+  <a href="https://www.youtube.com/@SaiKrishnaTechy">
+    <div class="button shimmer">
+      <img src="sai.jpg" alt="Image 1" height="30" width="30"> Sai Krishna
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@TeluguTechwithSrinivas">
+    <div class="button shimmer">
+      <img src="telugutechwith.jpg" alt="Image 1" height="30" width="30"> Telugu Tech with Srinivas
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@SaiNithinTech">
+    <div class="button shimmer">
+      <img src="sainitin.jpg" alt="Image 1" height="30" width="30"> Sai Nithin Tech
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@VaasuTechVlogs">
+    <div class="button shimmer">
+      <img src="vaasutech.jpg"Image 1" height="30" width="30"> Vaasu Tech Vlogs
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@telugutechhafiz">
+    <div class="button shimmer">
+      <img src="telugutechtut.jpg" alt="Image 1" height="30" width="30"> Telugu Tech Tuts
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@Telugutechworld">
+    <div class="button shimmer">
+      <img src="telugutechworld.jpg" alt="Image 1" height="30" width="30"> Telugu Tech World
+    </div>
+  </a> 
+    <a href="https://www.youtube.com/@AdarshTechLover">
+      <div class="button shimmer">
+        <img src="telugulover.jpg"Image 1" height="30" width="30"> Telugu Tech Lover
+      </div>
+    </a>
+    <a href="https://www.youtube.com/@telugutechhafiz">
+      <div class="button shimmer">
+        <img src="telugutechtut.jpg" alt="Image 1" height="30" width="30"> Telugu Tech Tuts
+      </div>
+    </a>
+    <a href="https://www.youtube.com/@Telugutechworld">
+      <div class="button shimmer">
+        <img src="telugutechworld.jpg" alt="Image 1" height="30" width="30"> Telugu Tech World
+      </div>
+    </a>
+    
+    </div>
+</div>
+</div>
+
+
+
+<div class="container" data-category="Tamil">
+  <div class="name1">
+<p>Tamil Tech Channels</p></div>
+<div class="buttonbox1">
+
+  <div class="button-container">
+
+  <a href="https://www.youtube.com/@TechShanTamil">
+    <div class="button shimmer">
+      <img src="techshan.jpg" alt="Image 1" height="30" width="30">  Tech Shan Tamil
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@Boo_tech">
+    <div class="button shimmer">
+      <img src="boo.jpg" alt="Image 1" height="30" width="30"> Boo Tech
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@A2DChannel">
+    <div class="button shimmer">
+      <img src="a2d.jpg" alt="Image 1" height="30" width="30"> A2D Channel
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@TechBuddiesIndia">
+    <div class="button shimmer">
+      <img src="techbuddies.jpg" alt="Image 1" height="30" width="30"> Tech Buddies India
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@TechSatire">
+    <div class="button shimmer">
+      <img src="techsathire.jpg" alt="Image 1" height="30" width="30"> Tech Satire
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@C4ETechTamil">
+    <div class="button shimmer">
+      <img src="c4e.jpg" alt="Image 1" height="30" width="30">C4ETech Tamil
+    </div>
+  </a>
+    <a href="https://www.youtube.com/@LoudOliTech">
+      <div class="button shimmer">
+        <img src="loud.jpg" alt="Image 1" height="30" width="30"> Louud Oli Tech
+      </div>
+    </a>
+    <a href="https://www.youtube.com/@TechBossIndia">
+      <div class="button shimmer">
+        <img src="techboss.jpg" alt="Image 1" height="30" width="30"> Tech Boss India
+      </div>
+    </a>
+    <a href="https://www.youtube.com/@TamilTechOfficial">
+      <div class="button shimmer">
+        <img src="tamilmrtt.jpg" alt="Image 1" height="30" width="30"> Tamil tech-MRTT
+      </div>
+    </a>
+      <a href="https://www.youtube.com/@cybertamizha">
+        <div class="button shimmer">
+          <img src="cyber.jpg" alt="Image 1" height="30" width="30"> cyber Tamizha
+        </div>
+      </a>
+      <a href="https://www.youtube.com/@TechBossIndia">
+        <div class="button shimmer">
+          <img src="techboss.jpg" alt="Image 1" height="30" width="30"> Tech Boss India
+        </div>
+      </a>
+      <a href="https://www.youtube.com/@TamilTechOfficial">
+        <div class="button shimmer">
+          <img src="tamilmrtt.jpg" alt="Image 1" height="30" width="30"> Tamil tech-MRTT
+        </div>
+      </a>
+      </div>
+</div>
+</div>
+
+
+
+
+
+
+
+<div class="container" data-category="Hindi">
+  <div class="name1">
+<p>Hindi Tech Channels</p></div>
+<div class="buttonbox1">
+  
+  <div class="button-container">
+    <a href="https://www.youtube.com/live/Zibn0PKh_rM?si=gqavMbqp_-crQjgd">
+      <div class="button shimmer">
+        <img src="zee-news1656.logowik.com.webp" alt="Image 1" height="30" width="30"> Zee News
+      </div>
+    </a>
+    <a href="https://www.youtube.com/live/Xmm3Kr5P1Uw?si=e-j3qWuLnWH4NCwv">
+      <div class="button shimmer">
+        <img src="indiatv_profile (1).jpg" alt="Image 1" height="30" width="30"> India tv
+      </div>
+    </a>
+    <a href="https://www.youtube.com/live/nyd-xznCpJc?si=p1_d7FI4oKZuZaRA">
+    <div class="button shimmer">
+      <img src="109657-abplogo.jpg" alt="Image 1" height="30" width="30"> ABP News
+    </div>
+  </a>
+
+  <a href="https://www.youtube.com/live/W65vX2PVWB4?si=0hpIh6BpJiv3QtNQ">
+    <div class="button shimmer">
+      <img src="Republic_Bharat_Logo.jpg" alt="Image 1" height="30" width="30"> Republic bharath
+    </div>
+  </a>
+  <a href="https://www.youtube.com/live/Nq2wYlWFucg?si=N5TYMzoIqgbGry7V">
+    <div class="button shimmer">
+      <img src="Aaj_tak_logo.png" alt="Image 1" height="30" width="30"> Aaj tak
+    </div>
+  </a>
+ 
+  
+    <a href="https://www.youtube.com/live/Xmm3Kr5P1Uw?si=e-j3qWuLnWH4NCwv">
+    <div class="button shimmer">
+      <img src="indiatv_profile (1).jpg" alt="Image 1" height="30" width="30"> india tv
+    </div>
+  </a>
+
+  <a href="https://www.youtube.com/live/Zibn0PKh_rM?si=gqavMbqp_-crQjgd">
+    <div class="button shimmer">
+      <img src="zee-news1656.logowik.com.webp" alt="Image 1" height="30" width="30"> Zee news
+    </div>
+  </a>
+  <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+ 
+  
+    <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+  <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+  <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+ 
+  
+    <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+
+  <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+  <a href="https://www.youtube.com/shorts/">
+    <div class="button shimmer">
+      <img src="ytshorts.png" alt="Image 1" height="30" width="30"> Shorts
+    </div>
+  </a>
+  </div>
+ 
+  </div>
+</div>
+</div>
+
+<div class="container" data-category="Kannada">
+
+  <div class="name1">
+<p> Maliyalm Tech Channels</p></div>
+<div class="buttonbox1">
+  <div class="button-container">
+
+  <a href="https://www.youtube.com/@MalayalamTechOfficial">
+    <div class="button shimmer">
+      <img src="maliyalam.jpg" alt="Image 1" height="30" width="30"> Maliyalm Tech Official
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@MrPerfectTechofficial">
+    <div class="button shimmer">
+      <img src="mr.jpg" alt="Image 1" height="30" width="30"> Mr Perfect Tech
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@MalayalamTechFactory">
+    <div class="button shimmer">
+      <img src="mf.jpg" alt="Image 1" height="30" width="30"> Malayalam Tech Factory
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@MrPerfectTechofficial">
+    <div class="button shimmer">
+      <img src="aa.jpg" alt="Image 1" height="30" width="30"> Aa Tech
+    </div>
+  </a>
+  <a href="https://www.youtube.com/@TECHNICALJAGATTU">
+    <div class="button shimmer">
+      <img src="technicaljagathu.jpg" alt="Image 1" height="30" width="30"> technical jagathu kannada
+    </div>
+  </a>
+ 
+  </div>
+  <div class="button-container">
+    <a href="https://www.youtube.com/@NeedsOfPublic">
+    <div class="button shimmer">
+      <img src="needs.jpg" alt="Image 1" height="30" width="30"> Needs Of Public kannada
+    </div>
+  </a>
+ 
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+      function handleButtonClick(button) {
+    document.querySelectorAll('.filter-button').forEach(btn => {
+      btn.classList.remove('active');
+    });
+
+    button.classList.add('active');
+
+    const category = button.getAttribute('data-category');
+    filterVideos(category);
+  }
+
+  document.querySelectorAll('.filter-button').forEach(button => {
+    button.addEventListener('click', () => {
+      handleButtonClick(button);
+    });
+  });
+
+  function filterVideos(category) {
+    const videoItems = document.querySelectorAll('.container');
+    let noResultsMessage = document.getElementById('no-results-message');
+    let hasResults = false;
+
+    videoItems.forEach(item => {
+      const itemCategory = item.getAttribute('data-category');
+
+      if (category === 'all' || itemCategory === category) {
+        item.style.display = 'block';
+        hasResults = true;
+      } else {
+        item.style.display = 'none';
+      }
+    });
+
+    noResultsMessage.style.display = hasResults ? 'none' : 'block';
+  }
+
+  function showContainer(containerId, category) {
+    const containers = document.querySelectorAll('.container');
+    containers.forEach(container => {
+      container.style.display = 'none';
+    });
+
+    const container = document.querySelector(`.${containerId}`);
+    if (category) {
+      filterVideos(category);
+    } else {
+      container.style.display = 'block';
+    }
+  }
+
+  function showAll() {
+    const containers = document.querySelectorAll('.container');
+    containers.forEach(container => {
+      container.style.display = 'block';
+    });
+
+    filterVideos('all');
+  }
+     
+     
+     
+     
+     </script> 
+    
+</body>
+</html>
